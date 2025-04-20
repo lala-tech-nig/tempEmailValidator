@@ -18,17 +18,54 @@
 // };
 
 
+
+// const disposableDomains = require('disposable-email-domains');
+// const { parse } = require('tldts');
+
+// /**
+//  * Check if an email is from a disposable domain
+//  */
+// function isDisposable(email) {
+//   const domain = email.split('@')[1].toLowerCase();
+//   return disposableDomains.includes(domain);
+// }
+
+// /**
+//  * Check if the email uses Gmail alias with "+"
+//  */
+// function isGmailAlias(email) {
+//   const [local, domain] = email.toLowerCase().split('@');
+//   return domain === 'gmail.com' && local.includes('+');
+// }
+
+// module.exports = {
+//   isDisposable,
+//   isGmailAlias,
+// };
+
+
+const { parse } = require('tldts');
 const disposableDomains = require('disposable-email-domains');
 
-const disposableSet = new Set(disposableDomains);
-
+/**
+ * Check if the email is from a disposable domain
+ */
 function isDisposable(email) {
-  const domain = email.split('@')[1]?.toLowerCase();
-  return disposableSet.has(domain);
+  const domain = email.split('@')[1].toLowerCase();
+  const parsed = parse(domain);
+  const baseDomain = parsed.domain || domain;
+  return disposableDomains.includes(baseDomain);
 }
 
+/**
+ * Check if the email uses Gmail alias with "+"
+ */
 function isGmailAlias(email) {
-  return /^.+\+.+@gmail\.com$/i.test(email);
+  const [local, domain] = email.toLowerCase().split('@');
+  return domain === 'gmail.com' && local.includes('+');
 }
 
-module.exports = { isDisposable, isGmailAlias };
+module.exports = {
+  isDisposable,
+  isGmailAlias,
+};

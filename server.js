@@ -40,6 +40,7 @@ const express = require('express');
 const cors = require('cors');
 const { isEmail } = require('validator');
 const { isDisposable, isGmailAlias } = require('./utils/emailChecker');
+// const { isDisposable, isGmailAlias } = require('./utils/emailChecker');
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./swagger');
@@ -123,5 +124,5 @@ app.post('/api/check-email', (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`✅ Email Checker API running on port ${PORT}`);
-  console.log(`📘 Swagger Docs available at http://localhost:${PORT}/api-docs`);
+  console.log(`📘 Swagger Docs available at https://tempemailvalidator.onrender.com/api-docs`);
 });
